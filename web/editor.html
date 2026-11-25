@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Block Game Maker</title>
+<link rel="stylesheet" href="editor.css">
+</head>
+<body>
+<div id="app">
+  <!-- Home screen -->
+  <section id="home" class="screen">
+    <header class="top"><div class="logo">🧱</div><h1>Block Game Maker</h1>
+      <button class="icon-btn" id="homeGuide" title="Block guide">📖</button></header>
+    <div class="scroll">
+      <h2>Start a new game</h2>
+      <div id="starters" class="cards"></div>
+      <h2>My games</h2>
+      <div id="projects" class="list"></div>
+      <div class="row">
+        <button class="btn" id="importBtn">📥 Open a .ckl file</button>
+        <button class="btn" id="homeGuide2">📖 Block guide</button>
+      </div>
+      <p class="hint">Games are saved automatically. Export a game as a <b>.ckl</b> file to share it or back it up.</p>
+    </div>
+  </section>
+
+  <!-- Editor -->
+  <section id="editor" class="screen hidden">
+    <header class="top">
+      <button class="icon-btn" id="backBtn" title="Back">←</button>
+      <input id="projName" class="name-input" maxlength="40" aria-label="Game name">
+      <span id="saved" class="saved">Saved</span>
+      <button class="icon-btn" id="guideBtn" title="Block guide">📖</button>
+    </header>
+    <main id="tabs">
+      <div class="tab" id="tab-scene">
+        <div class="bar">
+          <button class="btn sm" id="zoomOut">−</button><button class="btn sm" id="zoomIn">＋</button>
+          <button class="btn sm" id="panToggle" title="Switch between moving objects and scrolling the world">🎯 Move</button>
+          <span class="grow"></span>
+          <button class="btn primary sm" id="addObj">＋ Add object</button>
+        </div>
+        <div id="sceneWrap"><canvas id="scene"></canvas></div>
+        <div id="chips" class="chips"></div>
+        <div id="props"></div>
+      </div>
+      <div class="tab hidden" id="tab-code">
+        <div class="bar">
+          <select id="codeObj" class="grow"></select>
+          <div class="seg"><button id="modeBlocks">🧩 Blocks</button><button id="modeLua">📝 Lua</button></div>
+        </div>
+        <div id="codeBody"></div>
+      </div>
+      <div class="tab hidden" id="tab-play">
+        <div class="bar">
+          <button class="btn sm" id="playRestart">↺ Restart</button>
+          <span class="grow"></span><span class="hint" id="playHint">Arrow keys / buttons · Space = A</span>
+        </div>
+        <div id="stageWrap"><div id="stage"><canvas id="playCanvas"></canvas></div></div>
+        <div id="playProblems"></div>
+        <pre id="log" aria-live="polite"></pre>
+      </div>
+      <div class="tab hidden" id="tab-game"><div id="gameBody"></div></div>
+    </main>
+    <nav id="tabbar">
+      <button data-tab="scene" class="on"><span>🌍</span>Scene</button>
+      <button data-tab="code"><span>🧩</span>Code</button>
+      <button data-tab="play"><span>▶️</span>Play</button>
+      <button data-tab="game"><span>⚙️</span>Game</button>
+    </nav>
+  </section>
+</div>
+
+<div id="overlay" class="hidden"><div id="sheet"><div class="sheet-head"><b id="sheetTitle"></b><button class="icon-btn" id="sheetClose">✕</button></div><div id="sheetBody"></div></div></div>
+<div id="guide" class="hidden"><div class="guide-head"><button class="icon-btn" id="guideClose">←</button><b>Block guide</b></div><iframe id="guideFrame" title="Block guide"></iframe></div>
+<div id="toast" class="hidden"></div>
+
+<script src="lua.js"></script>
+<script src="blocks.js"></script>
+<script src="engine.js"></script>
+<script src="templates.js"></script>
+<script src="editor.js"></script>
+</body>
+</html>

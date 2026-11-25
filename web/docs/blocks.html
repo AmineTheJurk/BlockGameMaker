@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Block Game Maker – Block Guide</title>
+<style>
+:root{--bg:#f4f6fb;--panel:#fff;--ink:#1c2233;--mute:#667089;--line:#dfe3ee;--code:#10131d;--codeink:#cfe3ff}
+@media (prefers-color-scheme:dark){:root{--bg:#141824;--panel:#1d2233;--ink:#eef1fa;--mute:#9aa4bf;--line:#2e3550}}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header.hero{padding:28px 18px 8px;max-width:900px;margin:0 auto}
+header.hero h1{margin:0 0 6px;font-size:30px}header.hero p{margin:6px 0;color:var(--mute)}
+nav.toc{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:8px 12px;display:flex;gap:6px;overflow-x:auto}
+nav.toc a{flex:none;background:var(--c,#555);color:#fff;text-decoration:none;font-weight:600;border-radius:999px;padding:6px 12px;font-size:14px}
+nav.toc a small{opacity:.8}
+main{max-width:900px;margin:0 auto;padding:6px 14px 60px}
+section{margin-top:30px}
+h2{display:flex;align-items:center;gap:10px;margin:0;font-size:24px;border-bottom:4px solid var(--c);padding-bottom:6px}
+h3{margin:22px 0 6px}
+.ci{font-size:26px}.blurb{color:var(--mute);margin:8px 0 14px}
+.block{display:grid;grid-template-columns:minmax(170px,300px) 1fr;gap:16px;background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:14px;padding:14px;margin:12px 0}
+@media (max-width:640px){.block{grid-template-columns:1fr}}
+.pill{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;color:#fff;padding:8px 12px;border-radius:10px;font-weight:600;max-width:100%}
+.pill.hat{border-radius:20px 20px 10px 10px;flex-direction:column;align-items:flex-start}
+.pill.c{flex-direction:column;align-items:flex-start}
+.pill.val{border-radius:999px}.pill.bool{border-radius:8px;clip-path:polygon(10px 0,calc(100% - 10px) 0,100% 50%,calc(100% - 10px) 100%,10px 100%,0 50%);padding:8px 20px}
+.pill .inner{align-self:stretch;margin-top:4px;border-left:8px solid rgba(255,255,255,.55);background:rgba(0,0,0,.14);padding:4px 8px;border-radius:0 6px 6px 0}
+.pill .a{background:#fffffff0;color:#222;border-radius:7px;padding:1px 8px;font-weight:600;min-width:22px;text-align:center}
+.pill .a.dd{background:#ffffffd0}.pill .a.q{background:rgba(255,255,255,.35);color:#fff;border:1px dashed #fff}
+.pill .a.col{display:inline-block;width:28px;height:20px;padding:0;border:2px solid #fff}
+.pill .w{text-shadow:0 1px 0 rgba(0,0,0,.2)}
+.kind{display:block;margin-top:8px;font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+.what{margin:0 0 6px;font-size:17px}.ex{margin:6px 0;color:var(--mute)}.ex b{color:var(--ink)}
+ul.opts{margin:6px 0;padding-left:20px;color:var(--mute)}ul.opts b{color:var(--ink)}
+details{margin-top:6px}summary{cursor:pointer;color:var(--mute);font-size:14px}
+pre{background:var(--code);color:var(--codeink);padding:10px 12px;border-radius:10px;overflow:auto;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;margin:6px 0 0}
+code{font:14px ui-monospace,Menlo,Consolas,monospace;background:var(--line);padding:1px 6px;border-radius:6px}
+.kinds{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.kcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px}.kcard p{margin:8px 0 0;color:var(--mute);font-size:14px}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}td:first-child{white-space:nowrap}
+@media (max-width:640px){td:first-child{white-space:normal}}
+.tpl{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.tcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px}.te{font-size:30px}.tcard p{margin:4px 0 0;color:var(--mute);font-size:14px}
+.steps li{margin:6px 0}
+</style></head>
+<body>
+<header class="hero">
+<h1>🧱 Block Guide</h1>
+<p>Every block in Block Game Maker, explained in plain words. There are <b>70 blocks</b> in 9 groups. Tap a group below to jump to it.</p>
+</header>
+<nav class="toc"><a href="#c-events" style="--c:#f5b100">⚡ Events <small>8</small></a><a href="#c-move" style="--c:#3d8bff">🏃 Move <small>12</small></a><a href="#c-look" style="--c:#9b6bff">🎨 Look <small>9</small></a><a href="#c-sound" style="--c:#e05cc8">🔊 Sound <small>1</small></a><a href="#c-control" style="--c:#ff8c1a">🔁 Control <small>9</small></a><a href="#c-vars" style="--c:#ff5c7a">📦 Variables <small>5</small></a><a href="#c-math" style="--c:#3fb950">🧮 Math <small>8</small></a><a href="#c-sense" style="--c:#26b5d9">👀 Sensing <small>10</small></a><a href="#c-game" style="--c:#14a89a">🎮 Game <small>8</small></a><a href="#lua" style="--c:#444">📝 Lua guide</a><a href="#items" style="--c:#666">🎁 Template items</a></nav>
+<main>
+<section id="how" style="--c:#3d6bff"><h2><span class="ci">🧭</span> How it works</h2>
+<ol class="steps">
+<li>Every object in your game (the hero, a coin, an enemy…) has its own <b>script</b> made of blocks.</li>
+<li>A script always starts with a yellow <b>event block</b> (like “When game starts” or “Every frame”). It says <i>when</i> the blocks below it run.</li>
+<li>Tap <b>＋ Add block</b> to put a block inside. Tap <b>ƒ</b> next to a hole to plug a round <b>value block</b> or a pointy <b>yes/no block</b> into it.</li>
+<li>Tap <b>⋮</b> on a block to move it up or down, copy it, or delete it.</li>
+<li>Tap <b>▶ Play</b> to try your game. Tap <b>📝 Lua</b> if you want to write code instead.</li>
+</ol>
+<h3>The five kinds of block</h3><div class="kinds"><div class="kcard"><div class="pill hat" style="background:#777"><span class="w">Event block</span></div><p>Starts a script. Nothing can go above it.</p></div><div class="kcard"><div class="pill stmt" style="background:#777"><span class="w">Step block</span></div><p>Does one thing. Snaps into a script.</p></div><div class="kcard"><div class="pill c" style="background:#777"><span class="w">Wrapper block</span></div><p>Holds other blocks inside it.</p></div><div class="kcard"><div class="pill val" style="background:#777"><span class="w">Value block</span></div><p>Gives back a number or some words. Plugs into a round hole.</p></div><div class="kcard"><div class="pill bool" style="background:#777"><span class="w">Yes/No block</span></div><p>Answers yes or no. Plugs into an “If” or a yes/no hole.</p></div></div>
+</section>
+<section id="c-events" style="--c:#f5b100"><h2><span class="ci">⚡</span> Events</h2><p class="blurb">Blocks that start a script. Every script begins with one of these.</p><article class="block" id="b-when_start" data-block="when_start" style="--c:#f5b100">
+  <div class="pic"><div class="pill hat" style="background:#f5b100"><span class="w">When game starts</span><div class="inner">…</div></div><span class="kind">Event block</span></div>
+  <div class="txt">
+    <p class="what">Runs one time when the game begins (and again each time the game restarts). Use it to get things ready: set a starting position, reset the score, give the object a first speed.</p>
+    
+    <p class="ex"><b>Example:</b> When game starts → Set score to 0 → Go to x 40 y 200.</p>
+    <details><summary>Show the Lua code</summary><pre>function start()
+  -- other blocks go here
+end</pre></details>
+  </div>
+</article>
+<article class="block" id="b-every_frame" data-block="every_frame" style="--c:#f5b100">
+  <div class="pic"><div class="pill hat" style="background:#f5b100"><span class="w">Every frame</span><div class="inner">…</div></div><span class="kind">Event block</span></div>
+  <div class="txt">
+    <p class="what">Runs again and again, about 60 times every second, for as long as the game is running. Put things here that must keep happening: moving while a button is held, checking if you fell off the screen, updating the score text.</p>
+    
+    <p class="ex"><b>Example:</b> Every frame → If button Right is down → Move right by 3.</p>
+    <details><summary>Show the Lua code</summary><pre>function update(dt)
+  -- other blocks go here
+end</pre></details>
+  </div>
+</article>
+<article class="block" id="b-every_secs" data-block="every_secs" style="--c:#f5b100">
+  <div class="pic"><div class="pill hat" style="background:#f5b100"><span class="w">Every</span> <span class="a">1</span> <span class="w">seconds</span><div class="inner">…</div></div><span class="kind">Event block</span></div>
+  <div class="txt">
+    <p class="what">Starts a timer. The blocks inside run once every N seconds, for as long as the game is running. Great for making enemies or coins appear now and then.</p>
+    
+    <p class="ex"><b>Example:</b> Every 3 seconds → Make a copy of Enemy at x 600 y 250.</p>
+    <details><summary>Show the Lua code</summary><pre>function start()
+  every(1, function()
+    -- other blocks go here
+  end)
+end</pre></details>
+  </div>
+</article>
+<article class="block" id="b-when_tapped" data-block="when_tapped" style="--c:#f5b100">
+  <div class="pic"><div class="pill hat" style="background:#f5b100"><span class="w">When I am tapped</span><div class="inner">…</div></div><span class="kind">Event block</span></div>
+  <div class="txt">
+    <p class="what">Runs when the player taps (or clicks) this object on the screen.</p>
+    
+    <p class="ex"><b>Example:</b> When I am tapped → Change score by 1 → Play sound coin.</p>
+    <details><summary>Show the Lua code</summary><pre>function tapped()
+  -- other blocks go here
+end</pre></details>
+  </div>
+</article>
+<article class="block" id="b-when_touching" data-block="when_touching" style="--c:#f5b100">
+  <div class="pic"><div class="pill hat" style="background:#f5b100"><span class="w">When I touch</span> <span class="a dd">anything ▾</span><div class="inner">…</div></div><span class="kind">Event block</span></div>
+  <div class="txt">
+    <p class="what">Runs while this object overlaps the object you choose. It keeps running on every frame while they overlap, so it is best used for things that end the touching (like Delete me) or that are fine to repeat. Choose &quot;anything&quot; to react to every object.</p>
+    <ul class="opts"><li><b>Which object:</b> pick one of the objects in your game (or “anything”).</li></ul>
+    <p class="ex"><b>Example:</b> On a coin: When I touch Hero → Change score by 1 → Delete me.</p>
+    <details><summary>Show the Lua code</summary><pre>function touching(other)
+  if other.name == &quot;Coin&quot; then
+    -- other blocks go here
+  end
+end</pre></details>
+  </div>
+</article>
+<article class="block" id="b-when_button" data-block="when_button" style="--c:#f5b100">
+  <div class="pic"><div class="pill hat" style="background:#f5b100"><span class="w">When button</span> <span class="a dd">Left ▾</span> <span class="w">is pressed</span><div class="inner">…</div></div><span class="kind">Event block</span></div>
+  <div class="txt">
+    <p class="what">Runs once at the moment the player presses the chosen on-screen button (or keyboard key). Buttons are Left, Right, Up, Down, A and B. On a computer: arrow keys or WASD, Space or Z for A, X for B.</p>
+    <ul class="opts"><li><b>Button:</b> Left, Right, Up, Down, A, B</li></ul>
+    <p class="ex"><b>Example:</b> When button A is pressed → Jump with power 12.</p>
+    <details><summary>Show the Lua code</summary><pre>function pressed(button)
+  if button == &quot;Left&quot; then
+    -- other blocks go here
+  end
+end</pre></details>
+  </div>
+</article>
+<article class="block" id="b-when_message" data-block="when_message" style="--c:#f5b100">
+  <div class="pic"><div class="pill hat" style="background:#f5b100"><span class="w">When I get message</span> <span class="a">go</span><div class="inner">…</div></div><span class="kind">Event block</span></div>
+  <div class="txt">
+    <p class="what">Runs when any object uses &quot;Send message&quot; with the same word. Messages are how objects talk to each other.</p>
+    
+    <p class="ex"><b>Example:</b> When I get message &quot;boom&quot; → Hide → Play sound hit.</p>
+    <details><summary>Show the Lua code</summary><pre>function message(name)
+  if name == &quot;go&quot; then
+    -- other blocks go here
+  end
+end</pre></details>
+  </div>
+</article>
+<article class="block" id="b-when_screen_tap" data-block="when_screen_tap" style="--c:#f5b100">
+  <div class="pic"><div class="pill hat" style="background:#f5b100"><span class="w">When the screen is tapped</span><div class="inner">…</div></div><span class="kind">Event block</span></div>
+  <div class="txt">
+    <p class="what">Runs when the player taps anywhere on the screen. Use the &quot;Tap x&quot; and &quot;Tap y&quot; blocks to find out where.</p>
+    
+    <p class="ex"><b>Example:</b> When the screen is tapped → Go to x (Tap x) y (Tap y).</p>
+    <details><summary>Show the Lua code</summary><pre>function screen_tapped(x, y)
+  -- other blocks go here
+end</pre></details>
+  </div>
+</article></section>
+<section id="c-move" style="--c:#3d8bff"><h2><span class="ci">🏃</span> Move</h2><p class="blurb">Make your object walk, jump, bounce and turn.</p><article class="block" id="b-move" data-block="move" style="--c:#3d8bff">
+  <div class="pic"><div class="pill stmt" style="background:#3d8bff"><span class="w">Move</span> <span class="a dd">right ▾</span> <span class="w">by</span> <span class="a">5</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Moves your object a few steps in a direction. If your object &quot;hits solid things&quot;, it stops when it bumps into a solid object like a wall or platform.</p>
+    <ul class="opts"><li><b>Direction:</b> right, left, up, down</li></ul>
+    <p class="ex"><b>Example:</b> If button Left is down → Move left by 3.</p>
+    <details><summary>Show the Lua code</summary><pre>move(5, 0)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-go_to" data-block="go_to" style="--c:#3d8bff">
+  <div class="pic"><div class="pill stmt" style="background:#3d8bff"><span class="w">Go to x</span> <span class="a">0</span> <span class="w">y</span> <span class="a">0</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Jumps your object straight to a place on the screen. x is how far from the left edge, y is how far from the top edge. It ignores walls.</p>
+    
+    <p class="ex"><b>Example:</b> When game starts → Go to x 40 y 200.</p>
+    <details><summary>Show the Lua code</summary><pre>go_to(0, 0)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-set_x" data-block="set_x" style="--c:#3d8bff">
+  <div class="pic"><div class="pill stmt" style="background:#3d8bff"><span class="w">Set x to</span> <span class="a">0</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Puts your object at this distance from the left edge of the screen, without changing its up/down position.</p>
+    
+    <p class="ex"><b>Example:</b> If x is bigger than 640 → Set x to 0 (wrap around).</p>
+    <details><summary>Show the Lua code</summary><pre>me.x = 0</pre></details>
+  </div>
+</article>
+<article class="block" id="b-set_y" data-block="set_y" style="--c:#3d8bff">
+  <div class="pic"><div class="pill stmt" style="background:#3d8bff"><span class="w">Set y to</span> <span class="a">0</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Puts your object at this distance from the top edge of the screen, without changing its left/right position.</p>
+    
+    <p class="ex"><b>Example:</b> Set y to 0 puts the object at the very top.</p>
+    <details><summary>Show the Lua code</summary><pre>me.y = 0</pre></details>
+  </div>
+</article>
+<article class="block" id="b-set_speed_x" data-block="set_speed_x" style="--c:#3d8bff">
+  <div class="pic"><div class="pill stmt" style="background:#3d8bff"><span class="w">Set sideways speed to</span> <span class="a">0</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Gives your object a sideways speed. It keeps moving by itself every frame. Positive goes right, negative goes left, 0 stops.</p>
+    
+    <p class="ex"><b>Example:</b> On an enemy: When game starts → Set sideways speed to 1.5.</p>
+    <details><summary>Show the Lua code</summary><pre>me.vx = 0</pre></details>
+  </div>
+</article>
+<article class="block" id="b-set_speed_y" data-block="set_speed_y" style="--c:#3d8bff">
+  <div class="pic"><div class="pill stmt" style="background:#3d8bff"><span class="w">Set up/down speed to</span> <span class="a">0</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Gives your object an up/down speed. Positive goes down, negative goes up. Objects with gravity change this speed by themselves.</p>
+    
+    <p class="ex"><b>Example:</b> Set up/down speed to -10 launches the object upward.</p>
+    <details><summary>Show the Lua code</summary><pre>me.vy = 0</pre></details>
+  </div>
+</article>
+<article class="block" id="b-jump" data-block="jump" style="--c:#3d8bff">
+  <div class="pic"><div class="pill stmt" style="background:#3d8bff"><span class="w">Jump with power</span> <span class="a">12</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Makes your object jump up — but only if it is standing on the ground (or on a solid object). Needs gravity turned on. Bigger power = higher jump.</p>
+    
+    <p class="ex"><b>Example:</b> When button A is pressed → Jump with power 12.</p>
+    <details><summary>Show the Lua code</summary><pre>jump(12)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-bounce" data-block="bounce" style="--c:#3d8bff">
+  <div class="pic"><div class="pill stmt" style="background:#3d8bff"><span class="w">Bounce off</span> <span class="a dd">left &amp; right walls ▾</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">If your object reached the edge of the world or bumped into a solid object, it turns around (its speed flips). Use it with &quot;Set sideways speed&quot; to make something that walks back and forth or a bouncing ball.</p>
+    <ul class="opts"><li><b>Which walls:</b> left &amp; right walls, top &amp; bottom walls, all walls</li></ul>
+    <p class="ex"><b>Example:</b> On a ball: Every frame → Bounce off all walls.</p>
+    <details><summary>Show the Lua code</summary><pre>bounce(&quot;sides&quot;)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-keep_inside" data-block="keep_inside" style="--c:#3d8bff">
+  <div class="pic"><div class="pill stmt" style="background:#3d8bff"><span class="w">Stay inside the world</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">If your object is partly outside the world, push it back in. Handy so the player cannot walk off the edge.</p>
+    
+    <p class="ex"><b>Example:</b> Every frame → Stay inside the world.</p>
+    <details><summary>Show the Lua code</summary><pre>keep_inside()</pre></details>
+  </div>
+</article>
+<article class="block" id="b-move_toward" data-block="move_toward" style="--c:#3d8bff">
+  <div class="pic"><div class="pill stmt" style="background:#3d8bff"><span class="w">Move toward</span> <span class="a dd">object ▾</span> <span class="w">by</span> <span class="a">2</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Moves your object a little bit toward the nearest object with that name. Use it for enemies that chase the hero.</p>
+    <ul class="opts"><li><b>Which object:</b> pick one of the objects in your game.</li></ul>
+    <p class="ex"><b>Example:</b> On a ghost: Every frame → Move toward Hero by 1.</p>
+    <details><summary>Show the Lua code</summary><pre>move_toward(&quot;Coin&quot;, 2)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-turn" data-block="turn" style="--c:#3d8bff">
+  <div class="pic"><div class="pill stmt" style="background:#3d8bff"><span class="w">Turn</span> <span class="a">15</span> <span class="w">degrees</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Spins your object clockwise by this many degrees (use a negative number to spin the other way). It only changes how the object looks — it does not change its hitbox.</p>
+    
+    <p class="ex"><b>Example:</b> On a coin: Every frame → Turn 5 degrees.</p>
+    <details><summary>Show the Lua code</summary><pre>me.angle = me.angle + 15</pre></details>
+  </div>
+</article>
+<article class="block" id="b-set_flag" data-block="set_flag" style="--c:#3d8bff">
+  <div class="pic"><div class="pill stmt" style="background:#3d8bff"><span class="w">Turn</span> <span class="a dd">gravity ▾</span> <span class="a dd">on ▾</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Switches one of your object's abilities on or off while the game runs. Gravity: it falls. Solid: other objects cannot pass through it. Hits solid things: it stops when it bumps into solid objects.</p>
+    <ul class="opts"><li><b>Ability:</b> gravity, solid, hits solid things</li><li><b>On or off:</b> on, off</li></ul>
+    <p class="ex"><b>Example:</b> When I am tapped → Turn gravity on (the object falls).</p>
+    <details><summary>Show the Lua code</summary><pre>me.gravity = true</pre></details>
+  </div>
+</article></section>
+<section id="c-look" style="--c:#9b6bff"><h2><span class="ci">🎨</span> Look</h2><p class="blurb">Change how your object looks and what it says.</p><article class="block" id="b-say" data-block="say" style="--c:#9b6bff">
+  <div class="pic"><div class="pill stmt" style="background:#9b6bff"><span class="w">Say</span> <span class="a">Hello!</span> <span class="w">for</span> <span class="a">2</span> <span class="w">seconds</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Shows a speech bubble above your object for a few seconds. The game keeps running while the bubble is shown.</p>
+    
+    <p class="ex"><b>Example:</b> When I touch Hero → Say &quot;Ouch!&quot; for 1 seconds.</p>
+    <details><summary>Show the Lua code</summary><pre>say(&quot;Hello!&quot;, 2)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-set_look" data-block="set_look" style="--c:#9b6bff">
+  <div class="pic"><div class="pill stmt" style="background:#9b6bff"><span class="w">Change look to</span> <span class="a">😀</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Changes the picture of your object to a different emoji. Tap the emoji box to pick one.</p>
+    
+    <p class="ex"><b>Example:</b> When I am tapped → Change look to 💥.</p>
+    <details><summary>Show the Lua code</summary><pre>me.emoji = &quot;😀&quot;</pre></details>
+  </div>
+</article>
+<article class="block" id="b-set_color" data-block="set_color" style="--c:#9b6bff">
+  <div class="pic"><div class="pill stmt" style="background:#9b6bff"><span class="w">Set color to</span> <span class="a col" style="background:#ff5252"></span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Changes the color of your object. This is the fill color of boxes and circles, and the letter color of text.</p>
+    
+    <p class="ex"><b>Example:</b> When I touch Hero → Set color to red.</p>
+    <details><summary>Show the Lua code</summary><pre>me.color = &quot;#ff5252&quot;</pre></details>
+  </div>
+</article>
+<article class="block" id="b-set_size" data-block="set_size" style="--c:#9b6bff">
+  <div class="pic"><div class="pill stmt" style="background:#9b6bff"><span class="w">Set size to</span> <span class="a">100</span> <span class="w">%</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Makes your object bigger or smaller. 100 is normal size, 50 is half size, 200 is double size. The hitbox changes too.</p>
+    
+    <p class="ex"><b>Example:</b> When I touch Mushroom → Set size to 150 %.</p>
+    <details><summary>Show the Lua code</summary><pre>set_size(100)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-show" data-block="show" style="--c:#9b6bff">
+  <div class="pic"><div class="pill stmt" style="background:#9b6bff"><span class="w">Show</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Makes your object visible again. Visible objects can touch other objects and be tapped.</p>
+    
+    <p class="ex"><b>Example:</b> When I get message &quot;reveal&quot; → Show.</p>
+    <details><summary>Show the Lua code</summary><pre>me.visible = true</pre></details>
+  </div>
+</article>
+<article class="block" id="b-hide" data-block="hide" style="--c:#9b6bff">
+  <div class="pic"><div class="pill stmt" style="background:#9b6bff"><span class="w">Hide</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Makes your object invisible. A hidden object cannot be touched or tapped, but its scripts keep running.</p>
+    
+    <p class="ex"><b>Example:</b> When game starts → Hide (until a message says to show it).</p>
+    <details><summary>Show the Lua code</summary><pre>me.visible = false</pre></details>
+  </div>
+</article>
+<article class="block" id="b-set_text" data-block="set_text" style="--c:#9b6bff">
+  <div class="pic"><div class="pill stmt" style="background:#9b6bff"><span class="w">Set my text to</span> <span class="a">Score: 0</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Changes the words shown on your object. Use it with a Text object to show the score. Drop a &quot;Join&quot; block in here to mix words and numbers.</p>
+    
+    <p class="ex"><b>Example:</b> Every frame → Set my text to (Join &quot;Score: &quot; and score).</p>
+    <details><summary>Show the Lua code</summary><pre>me.text = tostring(&quot;Score: 0&quot;)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-face" data-block="face" style="--c:#9b6bff">
+  <div class="pic"><div class="pill stmt" style="background:#9b6bff"><span class="w">Face</span> <span class="a dd">right ▾</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Flips the picture so your object looks to the left or to the right. Pictures start out facing right.</p>
+    <ul class="opts"><li><b>Direction:</b> right, left</li></ul>
+    <p class="ex"><b>Example:</b> If button Left is down → Face left.</p>
+    <details><summary>Show the Lua code</summary><pre>face(&quot;right&quot;)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-set_background" data-block="set_background" style="--c:#9b6bff">
+  <div class="pic"><div class="pill stmt" style="background:#9b6bff"><span class="w">Set background color to</span> <span class="a col" style="background:#87ceeb"></span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Changes the color of the whole game background (the sky behind everything).</p>
+    
+    <p class="ex"><b>Example:</b> When I touch Door → Set background color to black.</p>
+    <details><summary>Show the Lua code</summary><pre>set_background(&quot;#87ceeb&quot;)</pre></details>
+  </div>
+</article></section>
+<section id="c-sound" style="--c:#e05cc8"><h2><span class="ci">🔊</span> Sound</h2><p class="blurb">Play short sound effects.</p><article class="block" id="b-play" data-block="play" style="--c:#e05cc8">
+  <div class="pic"><div class="pill stmt" style="background:#e05cc8"><span class="w">Play sound</span> <span class="a dd">jump ▾</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Plays a short sound effect: jump, coin, hit, win, lose or beep. The game does not wait for the sound to finish.</p>
+    <ul class="opts"><li><b>Sound:</b> jump, coin, hit, win, lose, beep</li></ul>
+    <p class="ex"><b>Example:</b> When I touch Hero → Play sound coin.</p>
+    <details><summary>Show the Lua code</summary><pre>play(&quot;jump&quot;)</pre></details>
+  </div>
+</article></section>
+<section id="c-control" style="--c:#ff8c1a"><h2><span class="ci">🔁</span> Control</h2><p class="blurb">Make decisions, repeat things, wait, and talk to other objects.</p><article class="block" id="b-if" data-block="if" style="--c:#ff8c1a">
+  <div class="pic"><div class="pill c" style="background:#ff8c1a"><span class="w">If</span> <span class="a q">yes/no</span> <span class="w">then</span><div class="inner">…</div></div><span class="kind">Wrapper block</span></div>
+  <div class="txt">
+    <p class="what">Only runs the blocks inside if the question is true. Drop a yes/no block (like &quot;Button Left is down&quot;) into the hole.</p>
+    
+    <p class="ex"><b>Example:</b> If button Left is down then Move left by 3.</p>
+    <details><summary>Show the Lua code</summary><pre>if false then
+  -- other blocks go here
+end</pre></details>
+  </div>
+</article>
+<article class="block" id="b-if_else" data-block="if_else" style="--c:#ff8c1a">
+  <div class="pic"><div class="pill c" style="background:#ff8c1a"><span class="w">If</span> <span class="a q">yes/no</span> <span class="w">then</span><div class="inner">…</div></div><span class="kind">Wrapper block</span></div>
+  <div class="txt">
+    <p class="what">Like &quot;If&quot;, but with two parts. The top part runs when the question is true, the bottom part (&quot;else&quot;) runs when it is not.</p>
+    
+    <p class="ex"><b>Example:</b> If On the ground? then Set color to green else Set color to red.</p>
+    <details><summary>Show the Lua code</summary><pre>if false then
+  -- other blocks go here
+else
+  -- other blocks go here
+end</pre></details>
+  </div>
+</article>
+<article class="block" id="b-repeat" data-block="repeat" style="--c:#ff8c1a">
+  <div class="pic"><div class="pill c" style="background:#ff8c1a"><span class="w">Repeat</span> <span class="a">10</span> <span class="w">times</span><div class="inner">…</div></div><span class="kind">Wrapper block</span></div>
+  <div class="txt">
+    <p class="what">Runs the blocks inside again and again, the number of times you choose, all at once (not one per frame).</p>
+    
+    <p class="ex"><b>Example:</b> Repeat 5 times → Make a copy of Star at x (Random 0 to 600) y 0.</p>
+    <details><summary>Show the Lua code</summary><pre>for _ = 1, 10 do
+  -- other blocks go here
+end</pre></details>
+  </div>
+</article>
+<article class="block" id="b-while" data-block="while" style="--c:#ff8c1a">
+  <div class="pic"><div class="pill c" style="background:#ff8c1a"><span class="w">Repeat while</span> <span class="a q">yes/no</span><div class="inner">…</div></div><span class="kind">Wrapper block</span></div>
+  <div class="txt">
+    <p class="what">Keeps running the blocks inside as long as the question is true. Make sure something inside changes the answer, or the game will stop with an &quot;endless loop&quot; message.</p>
+    
+    <p class="ex"><b>Example:</b> Repeat while y is smaller than 300 → Change my y... (move down by 1).</p>
+    <details><summary>Show the Lua code</summary><pre>while false do
+  -- other blocks go here
+end</pre></details>
+  </div>
+</article>
+<article class="block" id="b-after" data-block="after" style="--c:#ff8c1a">
+  <div class="pic"><div class="pill c" style="background:#ff8c1a"><span class="w">After</span> <span class="a">1</span> <span class="w">seconds</span><div class="inner">…</div></div><span class="kind">Wrapper block</span></div>
+  <div class="txt">
+    <p class="what">Waits a little while and then runs the blocks inside, one time. The rest of your script does not wait — it carries on straight away.</p>
+    
+    <p class="ex"><b>Example:</b> When I touch Hero → After 2 seconds → Delete me.</p>
+    <details><summary>Show the Lua code</summary><pre>after(1, function()
+  -- other blocks go here
+end)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-send" data-block="send" style="--c:#ff8c1a">
+  <div class="pic"><div class="pill stmt" style="background:#ff8c1a"><span class="w">Send message</span> <span class="a">go</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Shouts a word to every object in the game. Every object with a matching &quot;When I get message&quot; block runs its script.</p>
+    
+    <p class="ex"><b>Example:</b> When I touch Hero → Send message &quot;open&quot;.</p>
+    <details><summary>Show the Lua code</summary><pre>send(&quot;go&quot;)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-stop" data-block="stop" style="--c:#ff8c1a">
+  <div class="pic"><div class="pill stmt" style="background:#ff8c1a"><span class="w">Stop this script</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Stops the current script right here. Blocks after it do not run this time. Scripts start again on their next event.</p>
+    
+    <p class="ex"><b>Example:</b> If score is 0 → Stop this script.</p>
+    <details><summary>Show the Lua code</summary><pre>do return end</pre></details>
+  </div>
+</article>
+<article class="block" id="b-destroy" data-block="destroy" style="--c:#ff8c1a">
+  <div class="pic"><div class="pill stmt" style="background:#ff8c1a"><span class="w">Delete me</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Removes this object from the game for good (until the game restarts). Use it for collected coins, used-up bullets or defeated enemies.</p>
+    
+    <p class="ex"><b>Example:</b> When I touch Hero → Delete me.</p>
+    <details><summary>Show the Lua code</summary><pre>destroy()</pre></details>
+  </div>
+</article>
+<article class="block" id="b-spawn" data-block="spawn" style="--c:#ff8c1a">
+  <div class="pic"><div class="pill stmt" style="background:#ff8c1a"><span class="w">Make a copy of</span> <span class="a dd">object ▾</span> <span class="w">at x</span> <span class="a">0</span> <span class="w">y</span> <span class="a">0</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Creates a brand-new copy of an object you made, at the place you choose. The copy runs its own &quot;When game starts&quot; script right away.</p>
+    <ul class="opts"><li><b>Which object:</b> pick one of the objects in your game.</li></ul>
+    <p class="ex"><b>Example:</b> Every 2 seconds → Make a copy of Coin at x (Random 20 to 600) y 0.</p>
+    <details><summary>Show the Lua code</summary><pre>spawn(&quot;Coin&quot;, 0, 0)</pre></details>
+  </div>
+</article></section>
+<section id="c-vars" style="--c:#ff5c7a"><h2><span class="ci">📦</span> Variables</h2><p class="blurb">Boxes that remember numbers or words, like a score.</p><article class="block" id="b-var_set" data-block="var_set" style="--c:#ff5c7a">
+  <div class="pic"><div class="pill stmt" style="background:#ff5c7a"><span class="w">Set</span> <span class="a dd">variable ▾</span> <span class="w">to</span> <span class="a">0</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Puts a value into a variable (a labeled box that remembers things). Every object can see the same variables. Make new ones with &quot;＋ New variable&quot;.</p>
+    <ul class="opts"><li><b>Which variable:</b> pick one of your variables, or make a new one.</li></ul>
+    <p class="ex"><b>Example:</b> When game starts → Set score to 0.</p>
+    <details><summary>Show the Lua code</summary><pre>vars.score = 0</pre></details>
+  </div>
+</article>
+<article class="block" id="b-var_change" data-block="var_change" style="--c:#ff5c7a">
+  <div class="pic"><div class="pill stmt" style="background:#ff5c7a"><span class="w">Change</span> <span class="a dd">variable ▾</span> <span class="w">by</span> <span class="a">1</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Adds a number to a variable. Use a negative number to subtract.</p>
+    <ul class="opts"><li><b>Which variable:</b> pick one of your variables, or make a new one.</li></ul>
+    <p class="ex"><b>Example:</b> When I touch Hero → Change score by 1.</p>
+    <details><summary>Show the Lua code</summary><pre>vars.score = vars.score + 1</pre></details>
+  </div>
+</article>
+<article class="block" id="b-var_get" data-block="var_get" style="--c:#ff5c7a">
+  <div class="pic"><div class="pill val" style="background:#ff5c7a"><span class="a dd">variable ▾</span></div><span class="kind">Value block</span></div>
+  <div class="txt">
+    <p class="what">The current value of a variable. Drop it into any block that has a round or white hole. A variable you never set counts as 0.</p>
+    <ul class="opts"><li><b>Which variable:</b> pick one of your variables, or make a new one.</li></ul>
+    <p class="ex"><b>Example:</b> Set my text to (Join &quot;Score: &quot; and (score)).</p>
+    <details><summary>Show the Lua code</summary><pre>vars.score</pre></details>
+  </div>
+</article>
+<article class="block" id="b-save" data-block="save" style="--c:#ff5c7a">
+  <div class="pic"><div class="pill stmt" style="background:#ff5c7a"><span class="w">Save</span> <span class="a">0</span> <span class="w">as</span> <span class="a">highscore</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Stores a value on the device so it is still there next time the game is played. Good for a high score.</p>
+    
+    <p class="ex"><b>Example:</b> When game over → Save score as &quot;highscore&quot;.</p>
+    <details><summary>Show the Lua code</summary><pre>save(&quot;highscore&quot;, 0)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-saved" data-block="saved" style="--c:#ff5c7a">
+  <div class="pic"><div class="pill val" style="background:#ff5c7a"><span class="w">Saved value</span> <span class="a">highscore</span> <span class="w">or</span> <span class="a">0</span> <span class="w">if none</span></div><span class="kind">Value block</span></div>
+  <div class="txt">
+    <p class="what">Reads back a value you stored with &quot;Save&quot;. If nothing was saved yet, you get the backup value you typed in.</p>
+    
+    <p class="ex"><b>Example:</b> When game starts → Set best to (Saved value &quot;highscore&quot; or 0 if none).</p>
+    <details><summary>Show the Lua code</summary><pre>saved(&quot;highscore&quot;, 0)</pre></details>
+  </div>
+</article></section>
+<section id="c-math" style="--c:#3fb950"><h2><span class="ci">🧮</span> Math</h2><p class="blurb">Do sums, pick random numbers, compare things and join words.</p><article class="block" id="b-arith" data-block="arith" style="--c:#3fb950">
+  <div class="pic"><div class="pill val" style="background:#3fb950"><span class="a">0</span> <span class="a dd">+ ▾</span> <span class="a">0</span></div><span class="kind">Value block</span></div>
+  <div class="txt">
+    <p class="what">Does a sum with two numbers: add, subtract, multiply, divide, or &quot;remainder&quot; (what is left over after dividing). You can put other blocks in the holes.</p>
+    <ul class="opts"><li><b>Operation:</b> +, −, ×, ÷, remainder</li></ul>
+    <p class="ex"><b>Example:</b> (score) × 10 gives ten points for each coin.</p>
+    <details><summary>Show the Lua code</summary><pre>(0 + 0)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-random" data-block="random" style="--c:#3fb950">
+  <div class="pic"><div class="pill val" style="background:#3fb950"><span class="w">Random number from</span> <span class="a">1</span> <span class="w">to</span> <span class="a">10</span></div><span class="kind">Value block</span></div>
+  <div class="txt">
+    <p class="what">Picks a whole number at random between the two numbers (both can be picked). Different every time.</p>
+    
+    <p class="ex"><b>Example:</b> Go to x (Random 0 to 600) y 0.</p>
+    <details><summary>Show the Lua code</summary><pre>random(1, 10)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-mathfn" data-block="mathfn" style="--c:#3fb950">
+  <div class="pic"><div class="pill val" style="background:#3fb950"><span class="a dd">round ▾</span> <span class="w">of</span> <span class="a">0</span></div><span class="kind">Value block</span></div>
+  <div class="txt">
+    <p class="what">Changes one number: round it to the nearest whole number, round down, round up, remove the minus sign, or take the square root.</p>
+    <ul class="opts"><li><b>What to do:</b> round, round down, round up, positive of, square root of</li></ul>
+    <p class="ex"><b>Example:</b> round of 3.7 is 4. positive of -5 is 5.</p>
+    <details><summary>Show the Lua code</summary><pre>math.floor(0 + 0.5)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-compare" data-block="compare" style="--c:#3fb950">
+  <div class="pic"><div class="pill bool" style="background:#3fb950"><span class="a">0</span> <span class="a dd">= ▾</span> <span class="a">0</span></div><span class="kind">Yes/No block</span></div>
+  <div class="txt">
+    <p class="what">Compares two values and answers yes (true) or no (false). Use it in the hole of an &quot;If&quot; block.</p>
+    <ul class="opts"><li><b>Operation:</b> =, ≠, &lt;, &gt;, ≤, ≥</li></ul>
+    <p class="ex"><b>Example:</b> If (score) = 10 then You win.</p>
+    <details><summary>Show the Lua code</summary><pre>(0 == 0)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-and_or" data-block="and_or" style="--c:#3fb950">
+  <div class="pic"><div class="pill bool" style="background:#3fb950"><span class="a q">yes/no</span> <span class="a dd">and ▾</span> <span class="a q">yes/no</span></div><span class="kind">Yes/No block</span></div>
+  <div class="txt">
+    <p class="what">Joins two yes/no questions. &quot;and&quot; is yes only when both are yes. &quot;or&quot; is yes when at least one is yes.</p>
+    <ul class="opts"><li><b>Operation:</b> and, or</li></ul>
+    <p class="ex"><b>Example:</b> If (Button Left is down) or (Button A is down) ...</p>
+    <details><summary>Show the Lua code</summary><pre>(false and false)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-not" data-block="not" style="--c:#3fb950">
+  <div class="pic"><div class="pill bool" style="background:#3fb950"><span class="w">not</span> <span class="a q">yes/no</span></div><span class="kind">Yes/No block</span></div>
+  <div class="txt">
+    <p class="what">Flips a yes/no answer: yes becomes no, and no becomes yes.</p>
+    
+    <p class="ex"><b>Example:</b> If not (On the ground?) then Say &quot;Wheee!&quot;.</p>
+    <details><summary>Show the Lua code</summary><pre>(not false)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-bool_val" data-block="bool_val" style="--c:#3fb950">
+  <div class="pic"><div class="pill bool" style="background:#3fb950"><span class="a dd">true ▾</span></div><span class="kind">Yes/No block</span></div>
+  <div class="txt">
+    <p class="what">A fixed yes (true) or no (false).</p>
+    <ul class="opts"><li><b>Value:</b> true, false</li></ul>
+    <p class="ex"><b>Example:</b> Use true to make an &quot;If&quot; that always runs.</p>
+    <details><summary>Show the Lua code</summary><pre>true</pre></details>
+  </div>
+</article>
+<article class="block" id="b-join" data-block="join" style="--c:#3fb950">
+  <div class="pic"><div class="pill val" style="background:#3fb950"><span class="w">Join</span> <span class="a">Score: </span> <span class="w">and</span> <span class="a">…</span></div><span class="kind">Value block</span></div>
+  <div class="txt">
+    <p class="what">Sticks two pieces together into one piece of text. Numbers are turned into text, so you can put a variable in one of the holes.</p>
+    
+    <p class="ex"><b>Example:</b> Join &quot;Score: &quot; and (score) makes Score: 3.</p>
+    <details><summary>Show the Lua code</summary><pre>(tostring(&quot;Score: &quot;) .. tostring(&quot;&quot;))</pre></details>
+  </div>
+</article></section>
+<section id="c-sense" style="--c:#26b5d9"><h2><span class="ci">👀</span> Sensing</h2><p class="blurb">Ask questions about the game: what is pressed, what is touching, where things are.</p><article class="block" id="b-button_down" data-block="button_down" style="--c:#26b5d9">
+  <div class="pic"><div class="pill bool" style="background:#26b5d9"><span class="w">Button</span> <span class="a dd">Left ▾</span> <span class="w">is down</span></div><span class="kind">Yes/No block</span></div>
+  <div class="txt">
+    <p class="what">Yes while the player is holding that button down. Use it inside &quot;Every frame&quot; for smooth movement.</p>
+    <ul class="opts"><li><b>Button:</b> Left, Right, Up, Down, A, B</li></ul>
+    <p class="ex"><b>Example:</b> Every frame → If Button Right is down → Move right by 3.</p>
+    <details><summary>Show the Lua code</summary><pre>button(&quot;Left&quot;)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-touching" data-block="touching" style="--c:#26b5d9">
+  <div class="pic"><div class="pill bool" style="background:#26b5d9"><span class="w">Touching</span> <span class="a dd">anything ▾</span> <span class="w">?</span></div><span class="kind">Yes/No block</span></div>
+  <div class="txt">
+    <p class="what">Yes when this object overlaps an object with that name right now. Choose &quot;anything&quot; to check every object.</p>
+    <ul class="opts"><li><b>Which object:</b> pick one of the objects in your game (or “anything”).</li></ul>
+    <p class="ex"><b>Example:</b> If Touching Water? then Game over.</p>
+    <details><summary>Show the Lua code</summary><pre>is_touching(&quot;Coin&quot;)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-on_ground" data-block="on_ground" style="--c:#26b5d9">
+  <div class="pic"><div class="pill bool" style="background:#26b5d9"><span class="w">On the ground?</span></div><span class="kind">Yes/No block</span></div>
+  <div class="txt">
+    <p class="what">Yes when this object is standing on something solid. Needs gravity turned on.</p>
+    
+    <p class="ex"><b>Example:</b> If On the ground? then Set color to green.</p>
+    <details><summary>Show the Lua code</summary><pre>me.on_ground</pre></details>
+  </div>
+</article>
+<article class="block" id="b-my_prop" data-block="my_prop" style="--c:#26b5d9">
+  <div class="pic"><div class="pill val" style="background:#26b5d9"><span class="w">My</span> <span class="a dd">x ▾</span></div><span class="kind">Value block</span></div>
+  <div class="txt">
+    <p class="what">One fact about this object: where it is (x, y), how big it is, how fast it moves, or its text.</p>
+    <ul class="opts"><li><b>What fact:</b> x, y, width, height, sideways speed, up/down speed, text</li></ul>
+    <p class="ex"><b>Example:</b> If (My y) &gt; 400 then Game over (fell off the world).</p>
+    <details><summary>Show the Lua code</summary><pre>me.x</pre></details>
+  </div>
+</article>
+<article class="block" id="b-prop_of" data-block="prop_of" style="--c:#26b5d9">
+  <div class="pic"><div class="pill val" style="background:#26b5d9"><span class="a dd">x ▾</span> <span class="w">of</span> <span class="a dd">object ▾</span></div><span class="kind">Value block</span></div>
+  <div class="txt">
+    <p class="what">One fact about another object (the first one with that name): its position, size, speed or text. If it does not exist you get 0.</p>
+    <ul class="opts"><li><b>What fact:</b> x, y, width, height, sideways speed, up/down speed, text</li><li><b>Which object:</b> pick one of the objects in your game.</li></ul>
+    <p class="ex"><b>Example:</b> Go to x (x of Hero) y (y of Hero).</p>
+    <details><summary>Show the Lua code</summary><pre>prop_of(&quot;Coin&quot;, &quot;x&quot;)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-distance" data-block="distance" style="--c:#26b5d9">
+  <div class="pic"><div class="pill val" style="background:#26b5d9"><span class="w">Distance to</span> <span class="a dd">object ▾</span></div><span class="kind">Value block</span></div>
+  <div class="txt">
+    <p class="what">How far away the nearest object with that name is, measured from middle to middle. If there is none, you get a very big number.</p>
+    <ul class="opts"><li><b>Which object:</b> pick one of the objects in your game.</li></ul>
+    <p class="ex"><b>Example:</b> If (Distance to Hero) &lt; 100 then Say &quot;I see you!&quot;.</p>
+    <details><summary>Show the Lua code</summary><pre>distance_to(&quot;Coin&quot;)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-count_of" data-block="count_of" style="--c:#26b5d9">
+  <div class="pic"><div class="pill val" style="background:#26b5d9"><span class="w">How many</span> <span class="a dd">object ▾</span> <span class="w">exist</span></div><span class="kind">Value block</span></div>
+  <div class="txt">
+    <p class="what">Counts how many objects with that name are still in the game. Perfect for &quot;collect all the coins&quot;.</p>
+    <ul class="opts"><li><b>Which object:</b> pick one of the objects in your game.</li></ul>
+    <p class="ex"><b>Example:</b> If (How many Coin exist) = 0 then You win.</p>
+    <details><summary>Show the Lua code</summary><pre>count(&quot;Coin&quot;)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-screen_size" data-block="screen_size" style="--c:#26b5d9">
+  <div class="pic"><div class="pill val" style="background:#26b5d9"><span class="w">Screen</span> <span class="a dd">width ▾</span></div><span class="kind">Value block</span></div>
+  <div class="txt">
+    <p class="what">The width or height of the visible game screen, in game pixels.</p>
+    <ul class="opts"><li><b>Which size:</b> width, height</li></ul>
+    <p class="ex"><b>Example:</b> If (My y) &gt; (Screen height) then Game over.</p>
+    <details><summary>Show the Lua code</summary><pre>screen.width</pre></details>
+  </div>
+</article>
+<article class="block" id="b-tap_pos" data-block="tap_pos" style="--c:#26b5d9">
+  <div class="pic"><div class="pill val" style="background:#26b5d9"><span class="w">Tap</span> <span class="a dd">x ▾</span></div><span class="kind">Value block</span></div>
+  <div class="txt">
+    <p class="what">Where the player last tapped the screen. x counts from the left, y from the top.</p>
+    <ul class="opts"><li><b>Which one:</b> x, y</li></ul>
+    <p class="ex"><b>Example:</b> When the screen is tapped → Go to x (Tap x) y (Tap y).</p>
+    <details><summary>Show the Lua code</summary><pre>tap.x</pre></details>
+  </div>
+</article>
+<article class="block" id="b-game_time" data-block="game_time" style="--c:#26b5d9">
+  <div class="pic"><div class="pill val" style="background:#26b5d9"><span class="w">Seconds since start</span></div><span class="kind">Value block</span></div>
+  <div class="txt">
+    <p class="what">How many seconds have passed since the game started (or restarted).</p>
+    
+    <p class="ex"><b>Example:</b> Set my text to (Join &quot;Time: &quot; and (round of (Seconds since start))).</p>
+    <details><summary>Show the Lua code</summary><pre>game_time()</pre></details>
+  </div>
+</article></section>
+<section id="c-game" style="--c:#14a89a"><h2><span class="ci">🎮</span> Game</h2><p class="blurb">Win, lose, restart, camera, gravity and notes.</p><article class="block" id="b-game_over" data-block="game_over" style="--c:#14a89a">
+  <div class="pic"><div class="pill stmt" style="background:#14a89a"><span class="w">Game over:</span> <span class="a">Try again!</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Ends the game with a &quot;game over&quot; screen and your message. Tapping the screen starts the game again.</p>
+    
+    <p class="ex"><b>Example:</b> When I touch Spike → Play sound lose → Game over: &quot;Ouch!&quot;.</p>
+    <details><summary>Show the Lua code</summary><pre>game_over(&quot;Try again!&quot;)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-win" data-block="win" style="--c:#14a89a">
+  <div class="pic"><div class="pill stmt" style="background:#14a89a"><span class="w">You win:</span> <span class="a">Great job!</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Ends the game with a &quot;you win&quot; screen and your message. Tapping the screen plays again.</p>
+    
+    <p class="ex"><b>Example:</b> When I touch Flag → You win: &quot;You made it!&quot;.</p>
+    <details><summary>Show the Lua code</summary><pre>win(&quot;Great job!&quot;)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-restart" data-block="restart" style="--c:#14a89a">
+  <div class="pic"><div class="pill stmt" style="background:#14a89a"><span class="w">Restart the game</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Starts the whole game over from the beginning: all objects go back to where you placed them and variables go back to 0.</p>
+    
+    <p class="ex"><b>Example:</b> When button B is pressed → Restart the game.</p>
+    <details><summary>Show the Lua code</summary><pre>restart()</pre></details>
+  </div>
+</article>
+<article class="block" id="b-camera_follow" data-block="camera_follow" style="--c:#14a89a">
+  <div class="pic"><div class="pill stmt" style="background:#14a89a"><span class="w">Camera follows me</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Makes the screen scroll to follow this object. Needs a world that is bigger than the screen (see Game settings).</p>
+    
+    <p class="ex"><b>Example:</b> On the hero: When game starts → Camera follows me.</p>
+    <details><summary>Show the Lua code</summary><pre>camera_follow()</pre></details>
+  </div>
+</article>
+<article class="block" id="b-set_gravity" data-block="set_gravity" style="--c:#14a89a">
+  <div class="pic"><div class="pill stmt" style="background:#14a89a"><span class="w">Set gravity to</span> <span class="a">0.6</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Changes how strongly gravity pulls objects that have gravity turned on. 0.6 is normal. 0.2 feels like the moon. 0 means floating.</p>
+    
+    <p class="ex"><b>Example:</b> When I touch Moon → Set gravity to 0.2.</p>
+    <details><summary>Show the Lua code</summary><pre>set_gravity(0.6)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-set_prop_of" data-block="set_prop_of" style="--c:#14a89a">
+  <div class="pic"><div class="pill stmt" style="background:#14a89a"><span class="w">Set</span> <span class="a dd">x ▾</span> <span class="w">of</span> <span class="a dd">object ▾</span> <span class="w">to</span> <span class="a">0</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Changes one fact about another object (the first one with that name), like moving it or changing its text.</p>
+    <ul class="opts"><li><b>What fact:</b> x, y, width, height, sideways speed, up/down speed, text</li><li><b>Which object:</b> pick one of the objects in your game.</li></ul>
+    <p class="ex"><b>Example:</b> Set text of ScoreBoard to (score).</p>
+    <details><summary>Show the Lua code</summary><pre>set_prop_of(&quot;Coin&quot;, &quot;x&quot;, 0)</pre></details>
+  </div>
+</article>
+<article class="block" id="b-note" data-block="note" style="--c:#14a89a">
+  <div class="pic"><div class="pill stmt" style="background:#14a89a"><span class="w">Note:</span> <span class="a">my note</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">A reminder for yourself. It does nothing when the game runs. In the Lua version it becomes a comment.</p>
+    
+    <p class="ex"><b>Example:</b> Note: &quot;this part makes the hero jump&quot;.</p>
+    <details><summary>Show the Lua code</summary><pre>-- my note</pre></details>
+  </div>
+</article>
+<article class="block" id="b-log" data-block="log" style="--c:#14a89a">
+  <div class="pic"><div class="pill stmt" style="background:#14a89a"><span class="w">Show</span> <span class="a">hi</span> <span class="w">in the log</span></div><span class="kind">Step block</span></div>
+  <div class="txt">
+    <p class="what">Writes a value into the log panel under the play screen. Handy for finding out what is going on inside your game.</p>
+    
+    <p class="ex"><b>Example:</b> Show (My y) in the log.</p>
+    <details><summary>Show the Lua code</summary><pre>log(&quot;hi&quot;)</pre></details>
+  </div>
+</article></section>
+<section id="lua" style="--c:#444"><h2><span class="ci">📝</span> Lua guide</h2>
+<p class="blurb">Prefer typing code? Switch any object to <b>Lua</b> mode. Every block above turns into one of these functions. The 🧩→📝 button turns your blocks into Lua so you can learn from them.</p><h3>Moving</h3><table><tr><td><code>move(dx, dy)</code></td><td>Move by dx sideways and dy down. Stops at solid things if “Hits solid things” is on.</td></tr><tr><td><code>go_to(x, y)</code></td><td>Jump to a place.</td></tr><tr><td><code>jump(power)</code></td><td>Jump up (only on the ground).</td></tr><tr><td><code>bounce(mode)</code></td><td>Turn around at walls. mode is &quot;sides&quot;, &quot;top&quot; or &quot;all&quot;.</td></tr><tr><td><code>keep_inside()</code></td><td>Push back into the world.</td></tr><tr><td><code>move_toward(name, amount)</code></td><td>Step toward the nearest object with that name.</td></tr><tr><td><code>set_size(percent)</code></td><td>Change size (100 is normal).</td></tr><tr><td><code>face(&quot;left&quot; or &quot;right&quot;)</code></td><td>Flip the picture.</td></tr></table><h3>Looks &amp; sound</h3><table><tr><td><code>say(text, seconds)</code></td><td>Speech bubble.</td></tr><tr><td><code>play(name)</code></td><td>Sound: &quot;jump&quot;, &quot;coin&quot;, &quot;hit&quot;, &quot;win&quot;, &quot;lose&quot;, &quot;beep&quot;.</td></tr><tr><td><code>set_background(color)</code></td><td>Change the sky color, like &quot;#000000&quot;.</td></tr></table><h3>Time &amp; other objects</h3><table><tr><td><code>after(seconds, fn)</code></td><td>Run fn once later.</td></tr><tr><td><code>every(seconds, fn)</code></td><td>Run fn again and again.</td></tr><tr><td><code>send(text)</code></td><td>Tell all objects. They get it in message(name).</td></tr><tr><td><code>spawn(name, x, y)</code></td><td>Make a copy of an object. Returns the new object.</td></tr><tr><td><code>destroy()</code></td><td>Delete this object.</td></tr><tr><td><code>get(name)</code></td><td>The first object with that name (or nil).</td></tr><tr><td><code>count(name)</code></td><td>How many objects have that name.</td></tr><tr><td><code>is_touching(name)</code></td><td>true if touching an object with that name (nil = anything).</td></tr><tr><td><code>distance_to(name)</code></td><td>Distance to the nearest one.</td></tr><tr><td><code>prop_of(name, property)</code></td><td>A property of another object.</td></tr><tr><td><code>set_prop_of(name, property, value)</code></td><td>Change a property of another object.</td></tr></table><h3>Game</h3><table><tr><td><code>game_over(text)</code></td><td>Game over screen.</td></tr><tr><td><code>win(text)</code></td><td>You win screen.</td></tr><tr><td><code>restart()</code></td><td>Start again.</td></tr><tr><td><code>camera_follow()</code></td><td>Scroll the screen to follow me.</td></tr><tr><td><code>set_gravity(number)</code></td><td>Change gravity.</td></tr><tr><td><code>button(name)</code></td><td>true while that button is held: &quot;Left&quot;, &quot;Right&quot;, &quot;Up&quot;, &quot;Down&quot;, &quot;A&quot;, &quot;B&quot;.</td></tr><tr><td><code>random(a, b)</code></td><td>Random whole number from a to b.</td></tr><tr><td><code>game_time()</code></td><td>Seconds since the game started.</td></tr><tr><td><code>save(key, value)</code></td><td>Remember a value on this device.</td></tr><tr><td><code>saved(key, backup)</code></td><td>Read a remembered value.</td></tr><tr><td><code>log(value)</code></td><td>Write to the log under the play screen.</td></tr></table><h3>Special values</h3><table><tr><td><code>me</code></td><td>This object. Properties: x, y, w, h, vx, vy, angle, flip, visible, solid, gravity, collide, fixed, shape, emoji, color, text, on_ground.</td></tr><tr><td><code>vars</code></td><td>Your variables: vars.score. A variable you never set is 0.</td></tr><tr><td><code>screen.width, screen.height</code></td><td>Size of the screen.</td></tr><tr><td><code>tap.x, tap.y</code></td><td>Where the player last tapped.</td></tr></table><h3>Your functions (the game calls them)</h3><table><tr><td><code>function start()</code></td><td>When the game starts.</td></tr><tr><td><code>function update(dt)</code></td><td>Every frame. dt is the time since last frame.</td></tr><tr><td><code>function tapped()</code></td><td>When this object is tapped.</td></tr><tr><td><code>function touching(other)</code></td><td>While touching another object. other.name tells you who.</td></tr><tr><td><code>function pressed(button)</code></td><td>When a button is pressed.</td></tr><tr><td><code>function message(name)</code></td><td>When a message arrives.</td></tr><tr><td><code>function screen_tapped(x, y)</code></td><td>When the screen is tapped.</td></tr></table><h3>Lua basics</h3><table><tr><td><code>local x = 5</code></td><td>Make a variable that only this script can see.</td></tr><tr><td><code>if a then ... elseif b then ... else ... end</code></td><td>Decide.</td></tr><tr><td><code>for i = 1, 10 do ... end</code></td><td>Count.</td></tr><tr><td><code>while cond do ... end</code></td><td>Repeat while true.</td></tr><tr><td><code>function name(a, b) ... end</code></td><td>Make your own function.</td></tr><tr><td><code>{1, 2, 3}  and  {x = 1}</code></td><td>Lists and records (tables). #list is the length.</td></tr><tr><td><code>a .. b</code></td><td>Join text.</td></tr><tr><td><code>-- note</code></td><td>A comment.</td></tr><tr><td><code>math.floor, math.sqrt, math.abs, math.max, math.min, math.sin …</code></td><td>Math helpers.</td></tr><tr><td><code>string.format(&quot;%d&quot;, n), (&quot;x&quot;):upper() …</code></td><td>Text helpers.</td></tr><tr><td><code>table.insert, table.remove, ipairs, pairs</code></td><td>List helpers.</td></tr></table></section>
+<section id="items" style="--c:#666"><h2><span class="ci">🎁</span> Template items</h2><p class="blurb">Ready-made objects (with blocks already inside) and starter games. Add objects with “＋ Add object” in the Scene tab.</p><h3>Objects you can add</h3><div class="tpl"><div class="tcard"><div class="te">🐱</div><b>Hero (jumper)</b><p>Walks left and right, jumps with button A, falls with gravity. Camera follows. Game over if it falls off the world.</p></div><div class="tcard"><div class="te">🧑</div><b>Hero (top-down)</b><p>Walks in four directions, no gravity. Great for mazes and chase games.</p></div><div class="tcard"><div class="te">🧺</div><b>Catcher basket</b><p>Slides left and right along the bottom. Catches things that fall.</p></div><div class="tcard"><div class="te">🟩</div><b>Platform / ground</b><p>A solid green block. Other objects can stand on it and cannot walk through it.</p></div><div class="tcard"><div class="te">🪨</div><b>Rock (wall)</b><p>A solid rock. Blocks the way. Enemies turn around when they hit it.</p></div><div class="tcard"><div class="te">🪙</div><b>Coin</b><p>When the Hero touches it: +1 score, a coin sound, and the coin disappears.</p></div><div class="tcard"><div class="te">👾</div><b>Walking enemy</b><p>Walks back and forth and turns around at walls. Game over if it touches the Hero.</p></div><div class="tcard"><div class="te">👻</div><b>Chasing ghost</b><p>Floats toward the Hero all the time. Game over when it catches the Hero.</p></div><div class="tcard"><div class="te">🔺</div><b>Spikes</b><p>Dangerous! Game over if the Hero touches it.</p></div><div class="tcard"><div class="te">🚩</div><b>Goal flag</b><p>Touch it to win the game.</p></div><div class="tcard"><div class="te">⭐</div><b>Falling star</b><p>Falls down. Caught by the Basket: +1 score. If it reaches the bottom, game over. Use with the Star maker.</p></div><div class="tcard"><div class="te">✨</div><b>Star maker</b><p>Invisible. Makes a new Star at a random place at the top every second.</p></div><div class="tcard"><div class="te">⚽</div><b>Bouncy ball</b><p>Flies around and bounces off all the walls.</p></div><div class="tcard"><div class="te">🔢</div><b>Score text</b><p>Shows the score on the screen. It stays in place even when the camera moves.</p></div><div class="tcard"><div class="te">🔄</div><b>Restart button</b><p>A button on the screen. Tap it to restart the game.</p></div><div class="tcard"><div class="te">🔤</div><b>Text label</b><p>Plain text on the screen. Change the words in the Text box.</p></div><div class="tcard"><div class="te">⬜</div><b>Blank box</b><p>An empty object. Give it a look and some blocks.</p></div></div>
+<h3>Games you can start from</h3><div class="tpl"><div class="tcard"><div class="te">🏃</div><b>Jumping game</b><p>A platformer: collect coins, jump over the pit, avoid the walking enemy, reach the flag.</p></div><div class="tcard"><div class="te">👻</div><b>Chase game</b><p>Top-down: collect all the coins while a ghost chases you.</p></div><div class="tcard"><div class="te">🧺</div><b>Catch game</b><p>Move the basket and catch the falling stars. Miss one and it is game over.</p></div><div class="tcard"><div class="te">✨</div><b>Empty game</b><p>Start from nothing. Add your own objects.</p></div></div></section>
+</main></body></html>

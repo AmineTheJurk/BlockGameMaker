@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Game</title>
+<style>
+  html,body{margin:0;height:100%;background:#000;overflow:hidden;touch-action:none}
+  #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  canvas{display:block;touch-action:none}
+  #msg{position:fixed;inset:0;display:none;align-items:center;justify-content:center;color:#fff;font:16px sans-serif;text-align:center;padding:20px}
+</style>
+</head>
+<body>
+<div id="stage"><canvas id="c"></canvas></div>
+<div id="msg">No game was found inside this app.</div>
+<script src="lua.js"></script>
+<script src="blocks.js"></script>
+<script src="engine.js"></script>
+<script src="game.js"></script>
+<script>
+  (function () {
+    var p = window.CKL_PROJECT;
+    if (!p) { document.getElementById('msg').style.display = 'flex'; return; }
+    document.title = p.name || 'Game';
+    var game = new Engine.Game(document.getElementById('c'), p, {});
+    game.start();
+    Engine.mountControls(document.getElementById('stage'), game);
+    document.addEventListener('visibilitychange', function () { if (document.hidden) { game.stop(); } else { game.start(); } });
+  })();
+</script>
+</body>
+</html>
